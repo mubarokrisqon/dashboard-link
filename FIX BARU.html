@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PT Heavy Equipment Logistics - Database System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            /* Latar belakang bertema industri alat berat yang sinematik */
+            background: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.95)), 
+                        url('https://images.unsplash.com/photo-1578328819058-b69f3a3b0f6b?auto=format&fit=crop&q=80&w=1200') no-repeat center center fixed;
+            background-size: cover;
+            color: #f8fafc;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        /* ==================== 1. SCREEN LOGIN ==================== */
+        .login-container {
+            background: rgba(30, 41, 59, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 40px 30px;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Komponen Logo Perusahaan */
+        .company-logo {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #eab308 0%, #ca8a04 100%);
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 20px rgba(234, 179, 8, 0.3);
+        }
+
+        .company-logo i {
+            font-size: 32px;
+            color: #0f172a;
+        }
+
+        .login-container h2 {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #ffffff;
+            margin-bottom: 4px;
+        }
+
+        .login-container .tagline {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #eab308;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .login-container p.desc {
+            font-size: 13.5px;
+            color: #94a3b8;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 15px 15px 15px 45px;
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: white;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: #eab308;
+            box-shadow: 0 0 15px rgba(234, 179, 8, 0.25);
+            background: rgba(15, 23, 42, 0.85);
+        }
+
+        .input-group i {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #64748b;
+            font-size: 16px;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #eab308 0%, #ca8a04 100%);
+            border: none;
+            border-radius: 10px;
+            color: #0f172a;
+            font-size: 15px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px rgba(234, 179, 8, 0.35);
+        }
+
+        .error-msg {
+            color: #f43f5e;
+            font-size: 13px;
+            margin-top: 15px;
+            display: none;
+            font-weight: 500;
+        }
+
+        .secure-footer {
+            margin-top: 25px;
+            font-size: 11px;
+            color: #64748b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+
+        /* ==================== 2. SCREEN DASHBOARD ==================== */
+        .dashboard-container {
+            display: none; /* Tersembunyi sebelum login sukses */
+            width: 100%;
+            max-width: 1150px;
+            padding: 40px 20px;
+            animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .dash-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .dash-header .brand {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .dash-header .brand i {
+            font-size: 28px;
+            color: #eab308;
+        }
+
+        .dash-header h1 {
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #ffffff;
+        }
+
+        .dash-header p {
+            font-size: 13px;
+            color: #eab308;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-top: 5px;
+            font-weight: 600;
+        }
+
+        /* Grid Utama Kategori (Alat Berat, Material, Surat) */
+        .main-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        /* Kartu Folder Utama */
+        .folder-box {
+            background: rgba(30, 41, 59, 0.45);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 26px;
+            transition: all 0.3s ease;
+        }
+
+        .folder-box:hover {
+            border-color: rgba(234, 179, 8, 0.3);
+            background: rgba(30, 41, 59, 0.65);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.25);
+        }
+
+        /* Tombol Pemicu Klik */
+        .folder-trigger {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: none;
+            border: none;
+            width: 100%;
+            color: white;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            text-align: left;
+        }
+
+        .folder-title-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .folder-title-info i.fa-folder {
+            color: #eab308;
+            font-size: 26px;
+            filter: drop-shadow(0 2px 8px rgba(234, 179, 8, 0.3));
+        }
+
+        .chevron-icon {
+            transition: transform 0.3s ease;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        /* Saat folder aktif, tanda panah berputar */
+        .active .chevron-icon {
+            transform: rotate(180deg);
+            color: #eab308;
+        }
+
+        /* Area Daftar Isi Link (Sub-Folder) */
+        .sub-folder-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .sub-grid {
+            list-style: none;
+            margin-top: 18px;
+            padding-top: 18px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        /* Link Item Spreadsheet */
+        .sub-grid li a {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: rgba(15, 23, 42, 0.55);
+            color: #cbd5e1;
+            padding: 14px 16px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.25s ease;
+            border: 1px solid transparent;
+        }
+
+        .sub-grid li a:hover {
+            background: rgba(234, 179, 8, 0.08);
+            color: #eab308;
+            border-color: rgba(234, 179, 8, 0.25);
+            padding-left: 22px;
+        }
+
+        .sub-grid li a i.fa-file-excel {
+            color: #22c55e;
+            font-size: 16px;
+        }
+
+        /* Animasi Masuk */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 20px; }
+            .login-container { padding: 30px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-container" id="loginScreen">
+        <div class="company-logo">
+            <i class="fa-solid fa-truck-pickup"></i>
+        </div>
+        <h2>HEAVY LOGISTICS</h2>
+        <div class="tagline">Equipment Rental & Fleet</div>
+        <p class="desc">Sistem Manajemen Basis Data Internal. Masukkan kode otentikasi untuk membuka berkas folder.</p>
+        
+        <div class="input-group">
+            <i class="fa-solid fa-lock"></i>
+            <input type="password" id="passwordInput" placeholder="Masukkan Password Akses...">
+        </div>
+        
+        <button class="btn-login" onclick="checkPassword()">Otentikasi Sistem</button>
+        <div class="error-msg" id="errorMsg">❌ Kode Akses Salah. Akses Ditolak!</div>
+
+        <div class="secure-footer">
+            <i class="fa-solid fa-shield-halved"></i> Secured End-to-End Encryption
+        </div>
+    </div>
+
+
+    <div class="dashboard-container" id="dashboardScreen">
+        <div class="dash-header">
+            <div class="brand">
+                <i class="fa-solid fa-helmet-safety"></i>
+                <h1>Heavy Logistics Database</h1>
+            </div>
+            <p>Sistem Pusat Pengendalian Tautan Kerja</p>
+        </div>
+
+        <div class="main-grid">
+
+            <div class="folder-box" id="box-alatberat">
+                <button class="folder-trigger" onclick="toggleFolder('box-alatberat', 'sub-alatberat')">
+                    <div class="folder-title-info">
+                        <i class="fa-solid fa-folder"></i>
+                        <span>Divisi Alat Berat</span>
+                    </div>
+                    <i class="fa-solid fa-chevron-down chevron-icon"></i>
+                </button>
+                
+                <div class="sub-folder-content" id="sub-alatberat">
+                    <ul class="sub-grid">
+                        <li><a href="https://docs.google.com/spreadsheets/d/1NdgMSf9xdo0JxHy6_0ZTQ_Q-fez2derhBBxMpYV9uto/edit?usp=sharing" target="_blank"><i class="fa-regular fa-file-excel"></i> PT ALMED ATAU LONGYANG</a></li>
+                        <li><a href="https://docs.google.com/spreadsheets/d/1YSQ2hPmx_P_kXqz5WGw6Spn47WVzFwDRVsk-2YpKEYU/edit?usp=sharing" target="_blank"><i class="fa-regular fa-file-excel"></i> PT JJD</a></li>
+                        <li><a href="https://docs.google.com/spreadsheets/d/1TEerTPsYKPUCBHzW65MhJyHhKdp-WHd-ruoGef9Dxn8/edit?usp=sharing" target="_blank"><i class="fa-regular fa-file-excel"></i> PT SKU</a></li>
+                        <li><a href="https://docs.google.com/spreadsheets/d/1DbTRZNh9RBMUqSVaQnJrvsG31UlMPEQpjQYmsDkaNB8/edit?usp=sharing" target="_blank"><i class="fa-regular fa-file-excel"></i> Rekapitulasi DTT</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="folder-box" id="box-material">
+                <button class="folder-trigger" onclick="toggleFolder('box-material', 'sub-material')">
+                    <div class="folder-title-info">
+                        <i class="fa-solid fa-folder"></i>
+                        <span>Logistik Material</span>
+                    </div>
+                    <i class="fa-solid fa-chevron-down chevron-icon"></i>
+                </button>
+                
+                <div class="sub-folder-content" id="sub-material">
+                    <ul class="sub-grid">
+                        <li><a href="https://docs.google.com/spreadsheets/d/1L1U1zs366M2oGlQpM7RG0Rb7Jq0mSbx69HjhgFlZZuw/edit?usp=sharing" target="_blank"><i class="fa-regular fa-file-excel"></i> Suplai Material SKU</a></li>
+                        <li><a href="https://docs.google.com/spreadsheets/d/1GPfMxiCIjgp772Rz1SFTJn58jD9wR87rB_NXkacSd9I/edit?usp=sharing" target="_blank"><i class="fa-regular fa-file-excel"></i> Suplai Material AMP</a></li>
+                        <li><a href="https://docs.google.com/spreadsheets/d/1EWhEDhf7iQSMNK4vzpHmaKOJclb0XxoiHkoQ8qAeW8I/edit?usp=sharing" target="_blank"><i class="fa-regular fa-file-excel"></i> Suplai Material Zegau</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="folder-box" id="box-surat">
+                <button class="folder-trigger" onclick="toggleFolder('box-surat', 'sub-surat')">
+                    <div class="folder-title-info">
+                        <i class="fa-solid fa-folder"></i>
+                        <span>Administrasi & Surat</span>
+                    </div>
+                    <i class="fa-solid fa-chevron-down chevron-icon"></i>
+                </button>
+                
+                <div class="sub-folder-content" id="sub-surat">
+                    <ul class="sub-grid">
+                        <li><a href="https://docs.google.com/spreadsheets/d/1cVaR8_G9pbPMHTbokJ8ieTToAeWsjX1Kk6iVi2ARLLw/edit?usp=sharing" target="_blank"><i class="fa-regular fa-file-excel"></i> Arsip Nomor Surat</a></li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <script>
+        // Silakan sesuaikan password rahasia kamu di bawah ini
+        const PASSWORD_BENAR = "admin123";
+
+        // Fungsi Validasi Login
+        function checkPassword() {
+            const inputVal = document.getElementById('passwordInput').value;
+            const errorMsg = document.getElementById('errorMsg');
+            const loginScreen = document.getElementById('loginScreen');
+            const dashboardScreen = document.getElementById('dashboardScreen');
+
+            if (inputVal === PASSWORD_BENAR) {
+                // Efek transisi menghilang secara smooth
+                loginScreen.style.opacity = "0";
+                loginScreen.style.transform = "scale(0.95)";
+                setTimeout(() => {
+                    loginScreen.style.display = "none";
+                    dashboardScreen.style.display = "block";
+                }, 400);
+            } else {
+                errorMsg.style.display = "block";
+                // Efek getar (shake animation) via JS jika password salah
+                loginScreen.style.transform = "translateX(8px)";
+                setTimeout(() => loginScreen.style.transform = "translateX(-8px)", 80);
+                setTimeout(() => loginScreen.style.transform = "translateX(8px)", 160);
+                setTimeout(() => loginScreen.style.transform = "translateX(0)", 240);
+            }
+        }
+
+        // Membuka dashboard jika menekan tombol Enter pada keyboard
+        document.getElementById('passwordInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkPassword();
+            }
+        });
+
+        // Fungsi Buka-Tutup Folder (Accordion) Mulus Berbasis Scroll Height
+        function toggleFolder(boxId, subId) {
+            const box = document.getElementById(boxId);
+            const content = document.getElementById(subId);
+            
+            if (box.classList.contains('active')) {
+                box.classList.remove('active');
+                content.style.maxHeight = "0";
+            } else {
+                box.classList.add('active');
+                content.style.maxHeight = content.scrollHeight + "px";
+            }
+        }
+    </script>
+
+</body>
+</html>
