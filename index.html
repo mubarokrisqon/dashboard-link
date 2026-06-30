@@ -16,7 +16,6 @@
         }
 
         body {
-            /* Latar belakang bertema industri alat berat yang sinematik */
             background: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.95)), 
                         url('https://images.unsplash.com/photo-1578328819058-b69f3a3b0f6b?auto=format&fit=crop&q=80&w=1200') no-repeat center center fixed;
             background-size: cover;
@@ -43,7 +42,6 @@
             transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Komponen Logo Perusahaan */
         .company-logo {
             display: inline-flex;
             align-items: center;
@@ -159,7 +157,7 @@
 
         /* ==================== 2. SCREEN DASHBOARD ==================== */
         .dashboard-container {
-            display: none; /* Tersembunyi sebelum login sukses */
+            display: none;
             width: 100%;
             max-width: 1150px;
             padding: 40px 20px;
@@ -201,14 +199,12 @@
             font-weight: 600;
         }
 
-        /* Grid Utama Kategori (Alat Berat, Material, Surat) */
         .main-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 30px;
         }
 
-        /* Kartu Folder Utama */
         .folder-box {
             background: rgba(30, 41, 59, 0.45);
             backdrop-filter: blur(10px);
@@ -225,7 +221,6 @@
             box-shadow: 0 15px 30px rgba(0,0,0,0.25);
         }
 
-        /* Tombol Pemicu Klik */
         .folder-trigger {
             display: flex;
             align-items: center;
@@ -258,13 +253,13 @@
             font-size: 14px;
         }
 
-        /* Saat folder aktif, tanda panah berputar */
-        .active .chevron-icon {
+        .active > .folder-trigger .chevron-icon,
+        .active > .month-trigger .chevron-icon,
+        .active > .region-trigger .chevron-icon {
             transform: rotate(180deg);
             color: #eab308;
         }
 
-        /* Area Daftar Isi Link (Sub-Folder) */
         .sub-folder-content {
             max-height: 0;
             overflow: hidden;
@@ -281,8 +276,7 @@
             gap: 12px;
         }
 
-        /* Link Item Spreadsheet */
-        .sub-grid li a {
+        .sub-grid li a, .region-nested-content a, .nested-content > a {
             display: flex;
             align-items: center;
             gap: 14px;
@@ -297,19 +291,111 @@
             border: 1px solid transparent;
         }
 
-        .sub-grid li a:hover {
+        .sub-grid li a:hover, .region-nested-content a:hover, .nested-content > a:hover {
             background: rgba(234, 179, 8, 0.08);
             color: #eab308;
             border-color: rgba(234, 179, 8, 0.25);
             padding-left: 22px;
         }
 
-        .sub-grid li a i.fa-file-excel {
+        .sub-grid li a i.fa-file-excel, .region-nested-content a i.fa-file-excel, .nested-content > a i.fa-file-excel {
             color: #22c55e;
             font-size: 16px;
         }
 
-        /* Animasi Masuk */
+        /* --- CSS untuk Sub-Accordion Bulan --- */
+        .month-trigger {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(15, 23, 42, 0.4);
+            color: #eab308;
+            padding: 12px 16px;
+            border-radius: 10px;
+            border: 1px solid rgba(234, 179, 8, 0.15);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.25s ease;
+        }
+
+        .month-trigger:hover {
+            background: rgba(234, 179, 8, 0.08);
+            border-color: rgba(234, 179, 8, 0.3);
+        }
+
+        .month-box {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 5px;
+        }
+
+        .month-box.active .month-trigger {
+            background: rgba(234, 179, 8, 0.1);
+            border-color: #eab308;
+        }
+
+        .nested-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            padding-left: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 5px;
+        }
+
+        /* --- CSS untuk Sub-Accordion Kawasan (KIK / KITB) --- */
+        .region-trigger {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(15, 23, 42, 0.2);
+            color: #94a3b8;
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1px dashed rgba(148, 163, 184, 0.3);
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.25s ease;
+        }
+
+        .region-trigger:hover {
+            background: rgba(148, 163, 184, 0.1);
+            color: #cbd5e1;
+            border-color: #cbd5e1;
+        }
+
+        .region-box {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 4px;
+        }
+
+        .region-box.active .region-trigger {
+            background: rgba(148, 163, 184, 0.15);
+            border-color: #94a3b8;
+            color: #f8fafc;
+        }
+
+        .region-nested-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            padding-left: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            border-left: 1px solid rgba(255, 255, 255, 0.05);
+            margin-left: 6px;
+        }
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
@@ -366,13 +452,110 @@
                 </button>
                 
                 <div class="sub-folder-content" id="sub-alatberat">
-                    <ul class="sub-grid">
-                        <li><a href="https://docs.google.com/spreadsheets/d/1NdgMSf9xdo0JxHy6_0ZTQ_Q-fez2derhBBxMpYV9uto/edit?usp=sharing" target="_blank"><i class="fa-regular fa-file-excel"></i> PT ALMED</a></li>
-                        <li><a href="https://docs.google.com/spreadsheets/d/1YSQ2hPmx_P_kXqz5WGw6Spn47WVzFwDRVsk-2YpKEYU/edit?usp=sharing" target="_blank"><i class="fa-regular fa-file-excel"></i> PT JJD</a></li>
-                        <li><a href="https://docs.google.com/spreadsheets/d/1TEerTPsYKPUCBHzW65MhJyHhKdp-WHd-ruoGef9Dxn8/edit?usp=sharing" target="_blank"><i class="fa-regular fa-file-excel"></i> PT SKU</a></li>
-                        <li><a href="https://docs.google.com/spreadsheets/d/1DbTRZNh9RBMUqSVaQnJrvsG31UlMPEQpjQYmsDkaNB8/edit?usp=sharing" target="_blank"><i class="fa-regular fa-file-excel"></i> Rekapitulasi DTT</a></li>
-                        <li><a href="https://docs.google.com/spreadsheets/d/1NroOWKQEi1U68MwGxPor1Q892OiYnUUzYuIIxY869u0/edit?usp=sharing" target="_blank"><i class="fa-regular fa-file-excel"></i> PT APEX</a></li>
-                    </ul>
+                    <div class="sub-grid" style="list-style: none;">
+                        
+                        <div class="month-box" id="month-juni">
+                            <button class="month-trigger" onclick="toggleMonth('month-juni', 'nest-juni', event)">
+                                <span><i class="fa-regular fa-folder-open" style="margin-right: 8px;"></i> Juni 2026</span>
+                                <i class="fa-solid fa-chevron-down chevron-icon" style="font-size: 11px;"></i>
+                            </button>
+                            
+                            <div class="nested-content" id="nest-juni">
+                                <div class="region-box" id="region-kik-juni">
+                                    <button class="region-trigger" onclick="toggleRegion('region-kik-juni', 'nest-kik-juni', event)">
+                                        <span><i class="fa-solid fa-location-dot" style="margin-right: 8px; color: #eab308;"></i> KIK (Kendal)</span>
+                                        <i class="fa-solid fa-chevron-down chevron-icon" style="font-size: 11px;"></i>
+                                    </button>
+                                    <div class="region-nested-content" id="nest-kik-juni">
+                                        <a href="" target="_blank"><i class="fa-regular fa-file-excel"></i> BLM ADA</a>
+                                        <a href="" target="_blank"><i class="fa-regular fa-file-excel"></i> BLM ADA</a>
+                                    </div>
+                                </div>
+                                
+                                <div class="region-box" id="region-kitb-juni">
+                                    <button class="region-trigger" onclick="toggleRegion('region-kitb-juni', 'nest-kitb-juni', event)">
+                                        <span><i class="fa-solid fa-location-dot" style="margin-right: 8px; color: #eab308;"></i> KITB (Batang)</span>
+                                        <i class="fa-solid fa-chevron-down chevron-icon" style="font-size: 11px;"></i>
+                                    </button>
+                                    <div class="region-nested-content" id="nest-kitb-juni">
+                                        <a href="https://docs.google.com/spreadsheets/d/1NdgMSf9xdo0JxHy6_0ZTQ_Q-fez2derhBBxMpYV9uto/edit?usp=sharing" target="_blank"><i class="fa-regular fa-file-excel"></i> PT ALMED</a></li>
+                                        <a href="https://docs.google.com/spreadsheets/d/1YSQ2hPmx_P_kXqz5WGw6Spn47WVzFwDRVsk-2YpKEYU/edit?usp=sharing" target="_blank"><i class="fa-regular fa-file-excel"></i> PT JJD</a></li>
+                                        <a href="https://docs.google.com/spreadsheets/d/1TEerTPsYKPUCBHzW65MhJyHhKdp-WHd-ruoGef9Dxn8/edit?usp=sharing" target="_blank"><i class="fa-regular fa-file-excel"></i> PT SKU</a></li>
+                                        <a href="https://docs.google.com/spreadsheets/d/1NroOWKQEi1U68MwGxPor1Q892OiYnUUzYuIIxY869u0/edit?usp=sharing" target="_blank"><i class="fa-regular fa-file-excel"></i> PT APEX</a></li>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="month-box" id="month-juli">
+                            <button class="month-trigger" onclick="toggleMonth('month-juli', 'nest-juli', event)">
+                                <span><i class="fa-regular fa-folder-open" style="margin-right: 8px;"></i> Juli 2026</span>
+                                <i class="fa-solid fa-chevron-down chevron-icon" style="font-size: 11px;"></i>
+                            </button>
+                            <div class="nested-content" id="nest-juli">
+                                <div class="region-box" id="region-kik-juli">
+                                    <button class="region-trigger" onclick="toggleRegion('region-kik-juli', 'nest-kik-juli', event)">
+                                        <span><i class="fa-solid fa-location-dot" style="margin-right: 8px; color: #eab308;"></i> KIK (Kendal)</span>
+                                        <i class="fa-solid fa-chevron-down chevron-icon" style="font-size: 11px;"></i>
+                                    </button>
+                                    <div class="region-nested-content" id="nest-kik-juli">
+                                        <a href="https://docs.google.com/spreadsheets/d/1EVp-e3xcLDMsFI6K4TX4uU0TEzs56vHr_-8_Y5x0pnc/edit?usp=sharing" target="_blank"><i class="fa-regular fa-file-excel"></i> PT CUNTURY</a></li>
+                                        <a href="https://docs.google.com/spreadsheets/d/1fXXI9s1DSiaCw8nCh1QXgcOnZPzfzU0GyWqZX-Cr50g/edit?usp=sharing" target="_blank"><i class="fa-regular fa-file-excel"></i> PT CHI</a></li>
+                                        <a href="https://docs.google.com/spreadsheets/d/1OrIe5HQ2v-WxYYRrLYCuyhwUSrNYxDVJrycO8WjV3Ao/edit?usp=sharing" target="_blank"><i class="fa-regular fa-file-excel"></i> PT ZEGAO</a></li>
+                                        <a href="https://docs.google.com/spreadsheets/d/1gdVSuMMPDoW3OSY9QR-SeWS5Q4EuZUYABZJAJmSeJdg/edit?usp=sharing" target="_blank"><i class="fa-regular fa-file-excel"></i> PT Mr. Pay</a></li>
+                                    </div>
+                                </div>
+                                
+                                <div class="region-box" id="region-kitb-juli">
+                                    <button class="region-trigger" onclick="toggleRegion('region-kitb-juli', 'nest-kitb-juli', event)">
+                                        <span><i class="fa-solid fa-location-dot" style="margin-right: 8px; color: #eab308;"></i> KITB (Batang)</span>
+                                        <i class="fa-solid fa-chevron-down chevron-icon" style="font-size: 11px;"></i>
+                                    </button>
+                                    <div class="region-nested-content" id="nest-kitb-juli">
+                                        <a href="https://docs.google.com/spreadsheets/d/1cLb0Ut70fxA-wKhJOk_-6iK2KUJKpeWxhakAl6eDwWg/edit?usp=sharing" target="_blank"><i class="fa-regular fa-file-excel"></i> PT ALMED</a></li>
+                                        <a href="https://docs.google.com/spreadsheets/d/1-GldcTZUh41o3YSKRKjaQ7u6ieaBpvRAIqd4iwYdyV0/edit?usp=sharing" target="_blank"><i class="fa-regular fa-file-excel"></i> PT JJD</a></li>
+                                        <a href="https://docs.google.com/spreadsheets/d/1AdUbcj7N5k7F8lZcOJCfjG7jQ-EwIXMyz_Su2BeqUjE/edit?usp=sharing" target="_blank"><i class="fa-regular fa-file-excel"></i> PT SKU</a></li>
+                                        <a href="https://docs.google.com/spreadsheets/d/1Apw3jpRZWUH1MEafaSvoY4JmBbfuLi0xbTfZR0e_Gwc/edit?usp=sharing" target="_blank"><i class="fa-regular fa-file-excel"></i> PT APEX</a></li>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="month-box" id="month-agustus">
+                            <button class="month-trigger" onclick="toggleMonth('month-agustus', 'nest-agustus', event)">
+                                <span><i class="fa-regular fa-folder-open" style="margin-right: 8px;"></i> Agustus 2026</span>
+                                <i class="fa-solid fa-chevron-down chevron-icon" style="font-size: 11px;"></i>
+                            </button>
+                            <div class="nested-content" id="nest-agustus">
+                                <div class="region-box" id="region-kik-agustus">
+                                    <button class="region-trigger" onclick="toggleRegion('region-kik-agustus', 'nest-kik-agustus', event)">
+                                        <span><i class="fa-solid fa-location-dot" style="margin-right: 8px; color: #eab308;"></i> KIK (Kendal)</span>
+                                        <i class="fa-solid fa-chevron-down chevron-icon" style="font-size: 11px;"></i>
+                                    </button>
+                                    <div class="region-nested-content" id="nest-kik-agustus">
+                                        <a href="" target="_blank"><i class="fa-regular fa-file-excel"></i> PT CUNTURY</a></li>
+                                        <a href="" target="_blank"><i class="fa-regular fa-file-excel"></i> PT CHI</a></li>
+                                        <a href="" target="_blank"><i class="fa-regular fa-file-excel"></i> PT ZEGAO</a></li>
+                                        <a href="" target="_blank"><i class="fa-regular fa-file-excel"></i> PT Mr. Pay</a></li>
+                                    </div>
+                                </div>
+                                
+                                <div class="region-box" id="region-kitb-agustus">
+                                    <button class="region-trigger" onclick="toggleRegion('region-kitb-agustus', 'nest-kitb-agustus', event)">
+                                        <span><i class="fa-solid fa-location-dot" style="margin-right: 8px; color: #eab308;"></i> KITB (Batang)</span>
+                                        <i class="fa-solid fa-chevron-down chevron-icon" style="font-size: 11px;"></i>
+                                    </button>
+                                    <div class="region-nested-content" id="nest-kitb-agustus">
+                                        <a href="" target="_blank"><i class="fa-regular fa-file-excel"></i> PT ALMED</a></li>
+                                        <a href="" target="_blank"><i class="fa-regular fa-file-excel"></i> PT JJD</a></li>
+                                        <a href="" target="_blank"><i class="fa-regular fa-file-excel"></i> PT SKU</a></li>
+                                        <a href="" target="_blank"><i class="fa-regular fa-file-excel"></i> PT APEX</a></li>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
             </div>
 
@@ -422,19 +605,53 @@
                 
                 <div class="sub-folder-content" id="sub-solar">
                     <ul class="sub-grid">
-                        <li><a href="https://docs.google.com/spreadsheets/d/1G8ChC0GNmOa-yDiMo_NQYvluYGpF_cSCpdh7dhyc3xw/edit?usp=sharing"></i> Monitoring Solar</a></li>
+                        <li><a href="https://docs.google.com/spreadsheets/d/1G8ChC0GNmOa-yDiMo_NQYvluYGpF_cSCpdh7dhyc3xw/edit?usp=sharing" target="_blank"><i class="fa-regular fa-file-excel"></i> Monitoring Solar</a></li>
                     </ul>
                 </div>
             </div>
+
+            <div class="folder-box" id="box-dtt">
+                <button class="folder-trigger" onclick="toggleFolder('box-dtt', 'sub-dtt')">
+                    <div class="folder-title-info">
+                        <i class="fa-solid fa-folder"></i>
+                        <span>DTT</span>
+                    </div>
+                    <i class="fa-solid fa-chevron-down chevron-icon"></i>
+                </button>
+                
+                <div class="sub-folder-content" id="sub-dtt">
+                    <div class="sub-grid" style="list-style: none;">
+                        
+                        <div class="month-box" id="dtt-kik">
+                            <button class="month-trigger" onclick="toggleMonth('dtt-kik', 'nest-dtt-kik', event)">
+                                <span><i class="fa-solid fa-location-dot" style="margin-right: 8px; color: #eab308;"></i> KIK (Kendal)</span>
+                                <i class="fa-solid fa-chevron-down chevron-icon" style="font-size: 11px;"></i>
+                            </button>
+                            
+                            <div class="nested-content" id="nest-dtt-kik">
+                                <a href="LINK_SPREADSHEET_ANDA_DISINI" target="_blank"><i class="fa-regular fa-file-excel"></i> Data DTT KIK 1</a>
+                            </div>
+                        </div>
+
+                        <div class="month-box" id="dtt-kitb">
+                            <button class="month-trigger" onclick="toggleMonth('dtt-kitb', 'nest-dtt-kitb', event)">
+                                <span><i class="fa-solid fa-location-dot" style="margin-right: 8px; color: #eab308;"></i> KITB (Batang)</span>
+                                <i class="fa-solid fa-chevron-down chevron-icon" style="font-size: 11px;"></i>
+                            </button>
+                            
+                            <div class="nested-content" id="nest-dtt-kitb">
+                                <a href="https://docs.google.com/spreadsheets/d/1DbTRZNh9RBMUqSVaQnJrvsG31UlMPEQpjQYmsDkaNB8/edit?usp=sharing" target="_blank"><i class="fa-regular fa-file-excel"></i> Data DTT KITB 1</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
 
 
     <script>
-        // Silakan sesuaikan password rahasia kamu di bawah ini
         const PASSWORD_BENAR = "admin123";
 
-        // Fungsi Validasi Login
         function checkPassword() {
             const inputVal = document.getElementById('passwordInput').value;
             const errorMsg = document.getElementById('errorMsg');
@@ -442,7 +659,6 @@
             const dashboardScreen = document.getElementById('dashboardScreen');
 
             if (inputVal === PASSWORD_BENAR) {
-                // Efek transisi menghilang secara smooth
                 loginScreen.style.opacity = "0";
                 loginScreen.style.transform = "scale(0.95)";
                 setTimeout(() => {
@@ -451,7 +667,6 @@
                 }, 400);
             } else {
                 errorMsg.style.display = "block";
-                // Efek getar (shake animation) via JS jika password salah
                 loginScreen.style.transform = "translateX(8px)";
                 setTimeout(() => loginScreen.style.transform = "translateX(-8px)", 80);
                 setTimeout(() => loginScreen.style.transform = "translateX(8px)", 160);
@@ -459,14 +674,13 @@
             }
         }
 
-        // Membuka dashboard jika menekan tombol Enter pada keyboard
         document.getElementById('passwordInput').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 checkPassword();
             }
         });
 
-        // Fungsi Buka-Tutup Folder (Accordion) Mulus Berbasis Scroll Height
+        // Toggle Level 1 (Folder Utama)
         function toggleFolder(boxId, subId) {
             const box = document.getElementById(boxId);
             const content = document.getElementById(subId);
@@ -477,6 +691,57 @@
             } else {
                 box.classList.add('active');
                 content.style.maxHeight = content.scrollHeight + "px";
+            }
+        }
+
+        // Toggle Level 2 (Sub-Folder Bulan)
+        function toggleMonth(monthId, nestId, event) {
+            event.stopPropagation();
+            
+            const monthBox = document.getElementById(monthId);
+            const nestedContent = document.getElementById(nestId);
+            const parentContent = monthBox.closest('.sub-folder-content'); 
+
+            if (monthBox.classList.contains('active')) {
+                monthBox.classList.remove('active');
+                nestedContent.style.maxHeight = "0";
+                
+                setTimeout(() => {
+                    parentContent.style.maxHeight = parentContent.scrollHeight + "px";
+                }, 300);
+            } else {
+                monthBox.classList.add('active');
+                nestedContent.style.maxHeight = nestedContent.scrollHeight + "px";
+                
+                parentContent.style.maxHeight = (parentContent.scrollHeight + nestedContent.scrollHeight) + "px";
+            }
+        }
+
+        // Toggle Level 3 (Sub-Folder Kawasan KIK / KITB)
+        function toggleRegion(regionId, nestId, event) {
+            event.stopPropagation();
+            
+            const regionBox = document.getElementById(regionId);
+            const nestedContent = document.getElementById(nestId);
+            const parentMonth = regionBox.closest('.nested-content'); 
+            const parentFolder = regionBox.closest('.sub-folder-content'); 
+
+            if (regionBox.classList.contains('active')) {
+                regionBox.classList.remove('active');
+                nestedContent.style.maxHeight = "0";
+                
+                // Update tinggi elemen parent ketika folder tertutup
+                setTimeout(() => {
+                    parentMonth.style.maxHeight = parentMonth.scrollHeight + "px";
+                    parentFolder.style.maxHeight = parentFolder.scrollHeight + "px";
+                }, 300);
+            } else {
+                regionBox.classList.add('active');
+                nestedContent.style.maxHeight = nestedContent.scrollHeight + "px";
+                
+                // Tambahkan tinggi ke elemen parent ketika folder terbuka
+                parentMonth.style.maxHeight = (parentMonth.scrollHeight + nestedContent.scrollHeight) + "px";
+                parentFolder.style.maxHeight = (parentFolder.scrollHeight + nestedContent.scrollHeight) + "px";
             }
         }
     </script>
